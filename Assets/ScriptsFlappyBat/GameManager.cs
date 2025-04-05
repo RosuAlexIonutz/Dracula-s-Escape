@@ -41,7 +41,9 @@ public class GameManager : MonoBehaviour
     {
         playButton.SetActive(true);
         gameOver.SetActive(true);
-        Pause();
+        done.SetActive(false);
+        Time.timeScale = 0f;
+        player.enabled = false;
     }
 
 }
