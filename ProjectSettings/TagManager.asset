@@ -8,6 +8,8 @@ TagManager:
   - Scoring
   - Ground
   - Lantern
+  - Interact
+  - Enemy
   layers:
   - Default
   - TransparentFX
