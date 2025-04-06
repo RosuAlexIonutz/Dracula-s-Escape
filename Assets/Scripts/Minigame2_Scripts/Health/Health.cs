@@ -25,11 +25,11 @@ public class Health : MonoBehaviour
             if (!dead)
             {
                 anim.SetTrigger("die");  
-                GetComponent<PlayerMovement>().enabled = false;  
+                GetComponent<PlayerMovementMiniGame>().enabled = false;  
                 dead = true;
 
             
-                GetComponent<PlayerMovement>().RevealObjectDeath(); 
+                GetComponent<PlayerMovementMiniGame>().RevealObjectDeath(); 
             }
         }
     }

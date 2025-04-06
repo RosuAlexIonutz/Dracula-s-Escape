@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -32,6 +30,9 @@ public class AIController : MonoBehaviour
     bool m_IsPatrol;
     bool m_CaughtPlayer;
 
+    public float damageAmount = 10f; // Amount of damage AI will deal
+    public float pushForce = 5f; // Force with which AI pushes player
+
     void Start()
     {
         m_PlayerPosition = Vector3.zero;
@@ -49,7 +50,6 @@ public class AIController : MonoBehaviour
         navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);
     }
 
-    // Update is called once per frame
     void Update()
     {
         EnvironmentView();
@@ -95,6 +95,7 @@ public class AIController : MonoBehaviour
             }
         }
     }
+
     private void Patroling()
     {
         if (m_PlayerNear)
@@ -131,6 +132,7 @@ public class AIController : MonoBehaviour
             }
         }
     }
+
     void Move(float speed)
     {
         navMeshAgent.isStopped = false;
@@ -204,6 +206,29 @@ public class AIController : MonoBehaviour
             if (m_PlayerInRange)
             {
                 m_PlayerPosition = player.transform.position;
+            }
+        }
+    }
+
+    // Aplic? damage când AI-ul intr? în coliziune cu juc?torul
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            // Aplic? damage juc?torului
+            Health playerHealth = collision.gameObject.GetComponent<Health>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(damageAmount);
+            }
+
+            // Aplic? for?a de împingere asupra juc?torului
+            Rigidbody playerRb = collision.gameObject.GetComponent<Rigidbody>();
+            if (playerRb != null)
+            {
+                Vector3 pushDirection = collision.transform.position - transform.position; // Direc?ia în care AI-ul se afl? fa?? de juc?tor
+                pushDirection.y = 0; // Evit? ca juc?torul s? fie împins pe axa Y (dac? vrei s? fie pe sol)
+                playerRb.AddForce(pushDirection.normalized * pushForce, ForceMode.Impulse);
             }
         }
     }
