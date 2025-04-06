@@ -13,9 +13,6 @@ public class AIController : MonoBehaviour
     public float viewAngle = 90;
     public LayerMask playerMask;
     public LayerMask obstacleMask;
-    public float meshResolution = 1f;
-    public int edgeIterations = 4;
-    public float edgeDistance = 0.5f;
 
     public Transform[] waypoints;
     int m_CurrentWaypointIndex;
@@ -30,8 +27,8 @@ public class AIController : MonoBehaviour
     bool m_IsPatrol;
     bool m_CaughtPlayer;
 
-    public float damageAmount = 10f; // Amount of damage AI will deal
-    public float pushForce = 5f; // Force with which AI pushes player
+    public float damageAmount = 10f;
+    public float pushForce = 5f;
 
     void Start()
     {
@@ -210,26 +207,25 @@ public class AIController : MonoBehaviour
         }
     }
 
-    // Aplic? damage când AI-ul intr? în coliziune cu juc?torul
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            // Aplic? damage juc?torului
-            Health playerHealth = collision.gameObject.GetComponent<Health>();
-            if (playerHealth != null)
+            AttributesManager playerAttributes = collision.gameObject.GetComponent<AttributesManager>();
+            if (playerAttributes != null)
             {
-                playerHealth.TakeDamage(damageAmount);
+                playerAttributes.TakeDamage((int)damageAmount);
             }
 
-            // Aplic? for?a de împingere asupra juc?torului
-            Rigidbody playerRb = collision.gameObject.GetComponent<Rigidbody>();
-            if (playerRb != null)
-            {
-                Vector3 pushDirection = collision.transform.position - transform.position; // Direc?ia în care AI-ul se afl? fa?? de juc?tor
-                pushDirection.y = 0; // Evit? ca juc?torul s? fie împins pe axa Y (dac? vrei s? fie pe sol)
-                playerRb.AddForce(pushDirection.normalized * pushForce, ForceMode.Impulse);
-            }
+                // Apasam si pentru fortarea NPC-ului sa impinga jucatorul
+                Rigidbody playerRb = collision.gameObject.GetComponent<Rigidbody>();
+                if (playerRb != null)
+                {
+                    Vector3 pushDirection = collision.transform.position - transform.position;
+                    pushDirection.y = 0;  // Asiguram ca nu se misca pe axa Y
+                    playerRb.AddForce(pushDirection.normalized * pushForce, ForceMode.Impulse);
+                }
+            
         }
     }
 }

@@ -10,7 +10,7 @@ public class NewBehaviourScript : MonoBehaviour
     // Update is called once per frame
    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F11))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             playerAtm.DealDamage(enemyAtm.gameObject);
         }
