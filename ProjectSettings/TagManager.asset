@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Obstacle
   - Scoring
+  - Ground
+  - Lantern
   layers:
   - Default
   - TransparentFX
@@ -42,4 +44,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 4141318721
+    locked: 0
+  - name: Foreground
+    uniqueID: 3547433111
+    locked: 0
+  - name: Player
+    uniqueID: 672082665
+    locked: 0
+  - name: Ground
+    uniqueID: 1914136157
     locked: 0
